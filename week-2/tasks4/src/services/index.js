@@ -7,9 +7,17 @@ const TXNS = [
 
 const memoryService = {
     async getTransactions(id) {
+        if (id) {
+            const transaction = TXNS.find(txn => txn.id === id);
+            return Promise.resolve(transaction);
+        }
+        return Promise.resolve(TXNS);
     },
 
     async createTransaction({to, amount}) {
+        const newTxn = { id: uuid.v4(), timestamp: Date.now(), to, amount };
+        TXNS.push(newTxn);
+        return Promise.resolve(newTxn.id);
     }
 }
 
